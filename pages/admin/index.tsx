@@ -88,7 +88,7 @@ const AdminPage = () => {
                             <Dialog.Overlay className='bg-black opacity-80 fixed inset-0 z-[1]' />
                             <Dialog.Content className='z-[2] text-slate-200 fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-md bg-neutral-800 p-10 shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none'>
                                 <Dialog.Title className='font-semibold text-xl'>
-                                    Let's start with the test title & description
+                                    Let&apos;s start with the test title & description
                                 </Dialog.Title>
                                 <Dialog.Description className='mt-1 mb-10 leading-normal opacity-50 text-sm'>
                                     A short description will help the students learn more about the

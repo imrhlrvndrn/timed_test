@@ -21,6 +21,7 @@ model test {
 
 model testset {
   id          BigInt     @id @default(autoincrement())
+  title       String
   isPublished Boolean    @default(false)
   testId      BigInt
   isActive    Boolean    @default(true)

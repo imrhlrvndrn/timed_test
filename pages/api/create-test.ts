@@ -5,23 +5,58 @@ import prisma from '~/lib/prisma/client';
 
 export default async function createNewTest(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'POST') {
-        // * Same query in supabase
-        // const createdTest = await prisma.test.create({
-        //     data: {
-        //         title: 'React JS',
-        //         description: 'This is an introductory ReactJS test',
-        //     },
-        //     select: { id: true, title: true, description: true, createdAt: true },
-        // });
         const { test, testset } = req.body;
 
-        const createdTest: { id: number; title: string; description: string }[] =
-            await prisma.$queryRaw`
-        INSERT INTO test (title, description)
-            VALUES (${test.title}, ${test.description})
-            RETURNING id, title, description;
-        `;
+        // * Same query in prisma.<table>.create()
+        const createdTest = await prisma.test.create({
+            data: {
+                title: test.title,
+                description: test.description,
+                testSets: {
+                    create: {
+                        title: testset.title,
+                    },
+                },
+            },
+            select: {
+                testSets: { select: { title: true } },
+            },
+        });
 
-        res.status(200).json({ ...createdTest[0], id: Number(createdTest[0]?.id) });
+        // * Raw SQL attempt
+        // if you'd to do it the raw SQL method you'll have to make 2 separate queries
+        // to achieve the same results
+
+        // ! The below code throws an error Raw query failed. Code: `42703`. Message: `column "testid" of relation "testset" does not exist`
+        // ! But it clearly does exist 🤷🏻‍♂️
+        // const createdTest: { id: number }[] = await prisma.$queryRaw`
+        // INSERT INTO test (title, description)
+        //     VALUES (${test.title}, ${test.description})
+        //     RETURNING id
+        // `;
+
+        // const createdTestset = await prisma.$queryRaw`
+        // INSERT INTO testset (title, testId)
+        //         VALUES (${testset.title}, (SELECT id FROM test ORDER BY id DESC LIMIT 1))
+        //         RETURNING title
+        // `;
+
+        // ! Won't work
+        // await prisma.$transaction([
+        //     prisma.$queryRaw`INSERT INTO test (title, description)
+        //         VALUES (${test.title}, ${test.description})
+        //         RETURNING title, description
+        // `,
+        //     prisma.$queryRaw`INSERT INTO testset (title)
+        //         VALUES (${testset.title})
+        //         RETURNING title
+        // `,
+        // ]);
+
+        console.log('transaction data => ', createdTest);
+
+        // res.status(200);
+        // res.redirect(`/admin/new?testsetTitle=${createdTest.testSets[0]?.title}`);
+        res.status(200).json({ testset_title: createdTest.testSets[0]?.title });
     }
 }
