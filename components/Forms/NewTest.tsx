@@ -30,7 +30,7 @@ export const NewTestForm = () => {
                 {
                     title: 'Question',
                     description: 'Description',
-                    options: [{ content: 'Option', isSelected: false }],
+                    options: [{ content: 'Option' }],
                 },
             ],
         },

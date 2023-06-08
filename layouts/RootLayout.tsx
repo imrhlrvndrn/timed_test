@@ -5,10 +5,8 @@ export const RootLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <html lang='en'>
             <body className={`bg-neutral-950 min-h-screen`}>
-                <QueryWrapper>
-                    <NavigationBar />
-                    {children}
-                </QueryWrapper>
+                <NavigationBar />
+                {children}
             </body>
         </html>
     );

@@ -67,7 +67,7 @@ const Home: NextPage<{ tests: TTest[] }> = ({ tests }) => {
     return (
         <RootLayout>
             <main className='p-8'>
-                <div className='flex p-6 rounded-md border border-neutral-900'>
+                <div className='flex p-6 rounded-md border border-neutral-800'>
                     <p className='text-slate-50 md:text-2xl lg:text-3xl'>
                         Welcome Back, Rahul Ravindran
                     </p>

@@ -5,7 +5,7 @@ import { AuthStatus } from '../../components';
 
 export const NavigationBar = () => {
     return (
-        <div className='sticky left-0 top-0 z-20 flex justify-between bg-neutral-900 px-6 py-4'>
+        <div className='sticky left-0 top-0 z-[1] flex justify-between bg-neutral-900 px-6 py-4'>
             <Link href='/'>
                 <div className='cursor-pointer animate-transition flex items-center  hover:px-4 focus:px-4 py-1 rounded-md outline-none hover:bg-neutral-800 focus:bg-neutral-800'>
                     <AcademicCapIcon className='h-8 w-8 text-orange-600' />{' '}

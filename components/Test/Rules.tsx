@@ -42,6 +42,8 @@ export const Rules = ({
                 ))}
             </div>
 
+            
+            {/* Popup Dialog box to collect user's name in case the user isn't logged in */}
             <Dialog.Root>
                 <Dialog.Trigger asChild>
                     <button className='w-max py-2 px-4 bg-purple-600 hover:bg-purple-500 animate-transition rounded-md ml-auto mt-8'>

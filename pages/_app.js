@@ -1,7 +1,12 @@
-import '../styles/globals.css'
+import '../styles/globals.css';
+import { QueryWrapper } from '~/components';
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+    return (
+        <QueryWrapper>
+            <Component {...pageProps} />
+        </QueryWrapper>
+    );
 }
 
-export default MyApp
+export default MyApp;
