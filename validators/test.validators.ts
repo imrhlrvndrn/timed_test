@@ -19,10 +19,33 @@ export const testWith = z.object({
     ),
 });
 
-export const test_schema = z.object({
-    id: z.string(),
-    title: z.string().min(5),
-    description: z.string().min(5),
+export const newTestValidator = z.object({
+    title: z
+        .string()
+        .nonempty('Test title is required')
+        .min(3, 'Test title must be atleast 3 characters long'),
+    description: z.string().optional(),
+    testsetTitle: z
+        .string()
+        .nonempty('Testset title is required')
+        .min(3, 'Testset title must be atleast 3 characters long'),
 });
 
-type ITest = z.infer<typeof test_schema>;
+export const testQuestionValidator = z.object({
+    questions: z.array(
+        z.object({
+            title: z.string().min(1),
+            description: z.string().optional(),
+            // solution: z.string().min(1),
+            options: z.array(
+                z.object({
+                    content: z.string().min(1),
+                })
+            ),
+        })
+    ),
+});
+
+export type TestQuestion = z.infer<typeof testQuestionValidator>;
+
+// type ITest = z.infer<typeof test_schema>;

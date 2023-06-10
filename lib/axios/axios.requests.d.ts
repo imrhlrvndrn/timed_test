@@ -3,4 +3,13 @@ type TNewTestApiRequest = {
     testset: { title: string };
 };
 
-type TNewTestApiResponse = { testset_title: string };
+type TNewTestApiResponse = { setId: number };
+
+type TAddQuestionRequest = {
+    setId: number;
+    questions: TestQuestion[];
+};
+
+// type TAddQuestionResponse = {
+
+// }

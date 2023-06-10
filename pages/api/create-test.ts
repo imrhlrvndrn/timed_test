@@ -19,7 +19,7 @@ export default async function createNewTest(req: NextApiRequest, res: NextApiRes
                 },
             },
             select: {
-                testSets: { select: { title: true } },
+                testSets: { select: { id: true } },
             },
         });
 
@@ -57,6 +57,6 @@ export default async function createNewTest(req: NextApiRequest, res: NextApiRes
 
         // res.status(200);
         // res.redirect(`/admin/new?testsetTitle=${createdTest.testSets[0]?.title}`);
-        res.status(200).json({ testset_title: createdTest.testSets[0]?.title });
+        res.status(200).json({ setId: Number(createdTest.testSets[0]?.id) });
     }
 }
