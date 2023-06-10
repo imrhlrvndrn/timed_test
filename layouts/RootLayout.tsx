@@ -3,13 +3,9 @@ import { QueryWrapper } from '../components/Providers/ReactQueryWrapper';
 
 export const RootLayout = ({ children }: { children: React.ReactNode }) => {
     return (
-        <html lang='en'>
-            <body className={`bg-neutral-950 min-h-screen`}>
-                <QueryWrapper>
-                    <NavigationBar />
-                    {children}
-                </QueryWrapper>
-            </body>
-        </html>
+        <div className={`bg-neutral-950 min-h-screen`}>
+            <NavigationBar />
+            {children}
+        </div>
     );
 };

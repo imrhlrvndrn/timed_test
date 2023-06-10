@@ -7,4 +7,14 @@ const nextConfig = {
     },
 };
 
-module.exports = nextConfig;
+module.exports = {
+    ...nextConfig,
+    async rewrites() {
+        return [
+            {
+                source: '/api',
+                destination: `${process.env.NEXT_PUBLIC_BACKEND_URL}`,
+            },
+        ];
+    },
+};
