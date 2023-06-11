@@ -12,3 +12,10 @@ export const useGetTestsetById = (setId: number) => {
         queryKey: ['TESTSET', `${setId}`],
     });
 };
+
+export const useGetTestById = (id: number) => {
+    return useQuery({
+        queryFn: async () => (await axios.get(`/api/tests?id=${id}`)).data,
+        queryKey: ['TEST', id],
+    });
+};

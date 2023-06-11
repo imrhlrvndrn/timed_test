@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 type TMultistepFormStep = {
     component: React.ReactNode;
+    id: number;
     title: string;
     subtitle?: string;
     order: number;
@@ -9,21 +10,21 @@ type TMultistepFormStep = {
 };
 
 type TMultistepHookProps = {
-    formSteps: TMultistepFormStep[];
+    steps: TMultistepFormStep[];
     options?: {
         initialStep: number;
     };
 };
 
-export const useMultistep = ({ formSteps, options }: TMultistepHookProps) => {
+export const useMultistep = ({ steps, options }: TMultistepHookProps) => {
     let initialStep = 1;
     if (options) {
         initialStep = options.initialStep ?? 1;
     }
 
-    const [steps, setSteps] = useState<TMultistepFormStep[]>(formSteps);
+    const [allSteps, setSteps] = useState<TMultistepFormStep[]>(steps);
     const [currentStep, setCurrentStep] = useState(initialStep);
-    let totalSteps = steps?.length;
+    let totalSteps = allSteps?.length;
 
     useEffect(() => {
         setSteps((prevState) =>
@@ -83,7 +84,7 @@ export const useMultistep = ({ formSteps, options }: TMultistepHookProps) => {
         nextStep,
         previousStep,
         gotoStep,
-        activeStep: steps?.filter((step) => step?.isActive)[0],
+        activeStep: allSteps?.filter((step) => step?.isActive)[0],
         totalSteps,
     };
 };

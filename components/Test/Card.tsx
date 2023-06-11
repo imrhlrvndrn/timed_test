@@ -27,8 +27,8 @@ export const Card: FunctionComponent<TCardProps> = ({ test }) => {
                 </div>
                 <p className='opacity-60 text-sm'>{test?.description}</p>
 
-                <p className='flex text-xs mt-6'>
-                    <span className='mr-1 opacity-60'>Created by</span> {test?.created_by}
+                <p className='flex text-xs mt-6 flex-grow items-end'>
+                    <span className='mr-1 opacity-60'>Created by </span> {test?.created_by}
                 </p>
             </div>
         </Link>

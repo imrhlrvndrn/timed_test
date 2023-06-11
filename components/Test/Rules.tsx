@@ -18,7 +18,7 @@ export const Rules = ({
     const dummy_rules = [
         {
             id: 1,
-            content: `Once you select an option & move on to the next question. You can't go BackspaceIcon.`,
+            content: `Once you select an option & move on to the next question. You can't go back.`,
         },
         {
             id: 2,
@@ -31,8 +31,8 @@ export const Rules = ({
     ];
 
     return (
-        <div className='flex flex-col mx-auto mt-8 rounded-md bg-neutral-900 p-6 '>
-            <h1 className='text-xl md:text-2xl lg:text-4xl font-bold'>Test instructions</h1>
+        <div className='flex flex-col mx-auto mt-8 rounded-md bg-neutral-900 p-6 w-full md:max-w-3xl lg:max-w-2xl'>
+            <h1 className='text-xl md:text-2xl lg:text-4xl font-semibold'>Test instructions</h1>
             <div className='mt-8'>
                 {dummy_rules?.map((rule) => (
                     <div key={rule?.id} className='flex items-center mb-4'>
@@ -42,7 +42,6 @@ export const Rules = ({
                 ))}
             </div>
 
-            
             {/* Popup Dialog box to collect user's name in case the user isn't logged in */}
             <Dialog.Root>
                 <Dialog.Trigger asChild>

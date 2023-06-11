@@ -41,4 +41,23 @@ export default async function createNewTest(req: NextApiRequest, res: NextApiRes
             res.status(500);
         }
     }
+
+    if (req.method === 'POST') {
+        const { id } = req.query;
+        const { title } = req.body;
+        const testId = Number(id);
+
+        if (isNaN(testId)) return res.status(400).json({ message: 'Invalid test id' });
+
+        if (!title)
+            return res.status(400).json({ message: 'Please enter a title for the testset' });
+
+        await prisma.testset.create({
+            data: {
+                title,
+                testId,
+            },
+            select: { id: true },
+        });
+    }
 }

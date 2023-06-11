@@ -10,6 +10,10 @@ type TTest = {
     description: string;
     created_by: string; // !Remove this if not using AUTH
     link: string;
+    set?: {
+        title: string;
+        questions?: TestQuestion[];
+    };
 };
 
 const dummy_tests: TTest[] = [
@@ -19,6 +23,30 @@ const dummy_tests: TTest[] = [
         description:
             'This is an introductory ReactJS test. You can test your knowledge on ReactJS & start prepping for your interviews',
         created_by: 'Rahul Ravindran', // ! Remove this property if not using AUTH
+        set: {
+            title: 'ReactJS set 1',
+            questions: [
+                {
+                    id: 1,
+                    title: 'Which type of library is ReactJS?',
+                    solution: 'Expressive',
+                    options: [
+                        {
+                            id: 1,
+                            content: 'Declarative',
+                        },
+                        {
+                            id: 2,
+                            content: 'Expressive',
+                        },
+                        {
+                            id: 3,
+                            content: 'None of the above',
+                        },
+                    ],
+                },
+            ],
+        },
         link: '/test?id=1',
     },
     {

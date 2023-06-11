@@ -2,7 +2,7 @@
 
 // import { useSearchParams } from 'next/navigation';
 import { NextPage } from 'next';
-import { RenderTest } from '~/components';
+import { RenderTest, TimedTestProvider } from '~/components';
 import { RootLayout } from '~/layouts';
 
 type TTestPageProps = {
@@ -10,14 +10,12 @@ type TTestPageProps = {
 };
 
 const TestPage: NextPage<TTestPageProps> = (props) => {
-    // const searchParams = useSearchParams();
-    // const testId = searchParams.get('id');
-
     return (
         <RootLayout>
             <div className='p-8'>
-                test page {props?.searchParams?.id}
-                <RenderTest />
+                <TimedTestProvider>
+                    <RenderTest />
+                </TimedTestProvider>
             </div>
         </RootLayout>
     );

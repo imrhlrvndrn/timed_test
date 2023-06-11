@@ -6,6 +6,7 @@ export { RenderTest } from './Test/RenderTest';
 export { Multistep } from './Multistep/Multistep';
 export { MultistepQuestion } from './Test/MultistepQuestion';
 export { QueryWrapper } from './Providers/ReactQueryWrapper';
+export { TimedTestProvider, useTimedTest } from './Providers/TimedTestProvider';
 
 // forms
 export { NewTestForm } from './Forms/NewTest';
