@@ -9,6 +9,7 @@ import { useGetTestsetById } from '~/hooks/useTestQueryRequests';
 import { useRouter } from 'next/router';
 import { toast } from 'react-hot-toast';
 import { useGenerateResult } from '~/hooks/useTestMutationRequests';
+import { Timer } from '../Test/Timer';
 
 interface IMultistepProps {
     canGoBack?: boolean;
@@ -17,6 +18,8 @@ interface IMultistepProps {
 export const Multistep: FC<IMultistepProps> = ({ canGoBack = true }) => {
     const { test, setAnswer } = useTimedTest();
     const router = useRouter();
+    // * reload the page & send a toast if the user didn't attempt any questions & the timer sets off
+    // router.reload()
     const { mutate: generateResult } = useGenerateResult();
     console.log('multistep => ', test);
     const { nextStep, previousStep, activeStep, totalSteps } = useMultistep({
@@ -36,6 +39,22 @@ export const Multistep: FC<IMultistepProps> = ({ canGoBack = true }) => {
     return (
         <div className='my-8 mx-auto min-h-max lg:w-6/12 md:w-8/12 rounded-md bg-neutral-900 p-12'>
             <div>
+                <div className='flex justify-end items-center mb-6 border border-purple-600 rounded-md w-max p-4 ml-auto'>
+                    <Timer
+                        duration={3}
+                        callbackFn={() => {
+                            if (Object?.keys(test?.score ?? {})?.length === 0) {
+                                router.reload();
+                                toast.error(
+                                    'Please retake the test. You did not attempt any questions',
+                                    { duration: 5000 }
+                                );
+                                return;
+                            }
+                            router.push('/');
+                        }}
+                    />
+                </div>
                 {activeStep?.component}
                 <div className='mt-20 flex items-center justify-between'>
                     {canGoBack && (

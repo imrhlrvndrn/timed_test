@@ -31,6 +31,13 @@ export const newTestValidator = z.object({
         .min(3, 'Testset title must be atleast 3 characters long'),
 });
 
+export const newTestsetValidator = z.object({
+    title: z
+        .string()
+        .nonempty('Testset title is required')
+        .min(3, 'Testset title must be atleast 3 characters long'),
+});
+
 export const testQuestionValidator = z.object({
     questions: z.array(
         z.object({

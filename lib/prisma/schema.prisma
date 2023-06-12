@@ -26,7 +26,7 @@ model testset {
   isPublished Boolean    @default(false)
   testId      BigInt
   isActive    Boolean    @default(true)
-  duration    Int        @default(5) // can be 5, 10, 15, 20
+  duration    Int        @default(5) // can be 5, 10, 15, 30
   questions   question[]
   results     result[]
   test        test       @relation(fields: [testId], references: [id])

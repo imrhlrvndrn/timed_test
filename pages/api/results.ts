@@ -59,6 +59,10 @@ export default async function results(req: NextApiRequest, res: NextApiResponse)
         if (isNaN(testsetId)) return res.status(400).json({ message: 'Invalid testset id' });
 
         const scoreValues: ResultScore[] = Object.values(mappedScore);
+        if (scoreValues.length === 0)
+            return res
+                .status(400)
+                .json({ message: `No questions were attempted. Please take the test again` });
         const calculatedScore = scoreValues.reduce((acc, cur) => {
             if (cur.isCorrect) return acc + 1;
 

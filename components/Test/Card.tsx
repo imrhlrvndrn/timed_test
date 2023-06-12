@@ -21,8 +21,8 @@ export const Card: FunctionComponent<TCardProps> = ({ test }) => {
                         {test?.title}
                     </h1>
                     <p className='text-sm'>
-                        {test?.testSets?.length} Set
-                        {test?.testSets && test?.testSets?.length > 1 ? `'s` : ''}
+                        {test?.testSets?.length}
+                        {test?.testSets && test?.testSets?.length > 1 ? ` Sets` : ' Set'}
                     </p>
                 </div>
                 <p className='opacity-60 text-sm'>{test?.description}</p>

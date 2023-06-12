@@ -65,3 +65,16 @@ export const useGenerateResult = () => {
         },
     });
 };
+
+export const useCreateTestset = () => {
+    const router = useRouter();
+
+    return useMutation({
+        mutationFn: async ({ testId, title }: { testId: number; title: string }) =>
+            (await axios.post(`/api/testsets?id=${testId}`, { title })).data,
+        onSuccess: (data) => {
+            router.push(`/admin/new?setId=${data?.id}`);
+            toast.success('New test set was created 🔥', { duration: 2000 });
+        },
+    });
+};

@@ -1,9 +1,7 @@
-import Head from 'next/head';
-import Image from 'next/image';
-import { RootLayout } from '../layouts/RootLayout';
-import { Card } from '../components';
 import { NextPage } from 'next';
+import { Card } from '../components';
 import { useGetAllTests } from '~/hooks';
+import { RootLayout } from '../layouts/RootLayout';
 
 type TTest = {
     id: number;
