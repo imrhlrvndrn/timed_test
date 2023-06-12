@@ -3,6 +3,7 @@
 import { CheckCircleIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import * as Dialog from '@radix-ui/react-dialog';
 import { Dispatch, SetStateAction, useState } from 'react';
+import { useTimedTest } from '../Providers/TimedTestProvider';
 
 export const Rules = ({
     setTestStatus,
@@ -15,6 +16,7 @@ export const Rules = ({
     >;
 }) => {
     const [fullname, setFullname] = useState('');
+    const { saveUsername } = useTimedTest();
     const dummy_rules = [
         {
             id: 1,
@@ -73,16 +75,19 @@ export const Rules = ({
                         <div className='mt-6 flex justify-end'>
                             <Dialog.Close asChild>
                                 <button
+                                    type='submit'
                                     onClick={() => {
                                         if (fullname.length === 0) {
                                             alert('Please enter your full name');
                                             return;
                                         }
-                                        if (fullname?.length > 0)
+                                        if (fullname?.length > 0) {
                                             setTestStatus((prevState) => ({
                                                 ...prevState,
                                                 status: !prevState?.status,
                                             }));
+                                            saveUsername(fullname);
+                                        }
                                     }}
                                     className='bg-purple-600 text-slate-200 hover:bg-purple-500 animate-transition inline-flex h-[35px] items-center justify-center rounded-md px-6 leading-none focus:bg-purple-500'
                                 >

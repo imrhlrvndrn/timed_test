@@ -25,10 +25,6 @@ export const Multistep: FC<IMultistepProps> = ({ canGoBack = true }) => {
                   order: index + 1,
               }))
             : [],
-        //     [
-        //     { title: 'Step1', component: <MultistepQuestion />, order: 1 },
-        //     { title: 'Step2', component: <Step2 />, order: 2 },
-        // ],
     });
 
     const isNotFirstStep = activeStep?.order > 1;
@@ -71,7 +67,10 @@ export const Multistep: FC<IMultistepProps> = ({ canGoBack = true }) => {
                             if (!test.answer)
                                 return toast.error('Please select an option', { duration: 2000 });
                             updateScore(activeStep?.id);
-                            isLastStep ? console.log('last step') : nextStep();
+                            if (isLastStep) {
+                                updateScore(activeStep?.id);
+                                // * Make a backend call with all the relevant data
+                            } else nextStep();
                         }}
                     >
                         {isLastStep ? 'Submit Form' : 'Next Step'}
@@ -80,12 +79,4 @@ export const Multistep: FC<IMultistepProps> = ({ canGoBack = true }) => {
             </div>
         </div>
     );
-};
-
-export const Step1 = () => {
-    return <div>{/* <MultistepQuestion /> */}</div>;
-};
-
-export const Step2 = () => {
-    return <h1>This is step 2</h1>;
 };

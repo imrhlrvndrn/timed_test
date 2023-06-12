@@ -19,3 +19,10 @@ export const useGetTestById = (id: number) => {
         queryKey: ['TEST', id],
     });
 };
+
+export const useGetResultById = (id: number) => {
+    return useQuery({
+        queryFn: async () => (await axios.get(`/api/results?id=${id}`)).data,
+        queryKey: ['RESULTS', id],
+    });
+};

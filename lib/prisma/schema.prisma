@@ -17,6 +17,7 @@ model test {
   title       String
   description String?
   testSets    testset[]
+  results     result[]
 }
 
 model testset {
@@ -26,25 +27,38 @@ model testset {
   testId      BigInt
   isActive    Boolean    @default(true)
   duration    Int        @default(5) // can be 5, 10, 15, 20
-  test        test       @relation(fields: [testId], references: [id])
   questions   question[]
+  results     result[]
+  test        test       @relation(fields: [testId], references: [id])
 }
 
 model question {
   id          BigInt   @id @default(autoincrement())
-  testset     testset? @relation(fields: [testsetId], references: [id])
   testsetId   BigInt?
   title       String
   description String?
   options     option[]
   solution    String // store the id of the option
+  testset     testset? @relation(fields: [testsetId], references: [id])
 }
 
 model option {
   id         BigInt    @id @default(autoincrement())
-  question   question? @relation(fields: [questionId], references: [id])
   questionId BigInt?
   content    String
+  question   question? @relation(fields: [questionId], references: [id])
+}
+
+model result {
+  id        BigInt   @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  fullName  String
+  score     Int
+  testId    BigInt
+  testsetId BigInt
+  questions Json
+  test      test     @relation(fields: [testId], references: [id])
+  testSet   testset  @relation(fields: [testsetId], references: [id])
 }
 
 // model result {

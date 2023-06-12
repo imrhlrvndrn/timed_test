@@ -1,7 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { toast } from 'react-hot-toast';
+import axios from '~/lib/axios';
 import { addQuestionToTestset, createTest } from '~/lib/axios/test.requests';
+import { ResultQuestionMapping } from '~/pages/api/results';
 
 export const useCreateNewTestAndTestsetMutation = () => {
     const router = useRouter();
@@ -31,6 +33,24 @@ export const useAddQuestionToTestset = () => {
             toast.success(`Add new testset questions!! 🎉`, { duration: 3000 });
             router.push(`/admin`);
         },
-    onSettled: () => queryClient.invalidateQueries(['TESTS.TESTSETS']),
+        onSettled: () => queryClient.invalidateQueries(['TESTS.TESTSETS']),
+    });
+};
+
+export const useGenerateResult = () => {
+    return useMutation({
+        mutationFn: async ({
+            testId,
+            testsetId,
+            score,
+        }: {
+            testId: number;
+            testsetId: number;
+            score: ResultQuestionMapping;
+        }) =>
+            await axios.post(`/api/results?id=${testId}&setId=${testsetId}`, {
+                score,
+            }),
+        mutationKey: ['RESULTS'],
     });
 };
