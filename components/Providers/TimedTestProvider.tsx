@@ -58,15 +58,45 @@ export const TimedTestProvider = ({ children }: { children: React.ReactNode }) =
             setTest((prevState) => ({
                 ...prevState,
                 answer,
-                score: {
-                    ...prevState.score,
-                    [questionId]: {
-                        isCorrect,
-                        question: question?.title ?? '',
-                        answer: answer ?? '',
-                        solution: question?.solution ?? '',
-                    },
-                },
+                // Building this object since if some of the questions are not attempted
+                // Then also they'll be present in the results
+                score: !(test?.set instanceof Array)
+                    ? test?.set?.questions
+                          ?.map((question) =>
+                              question?.id === questionId
+                                  ? {
+                                        id: question?.id,
+                                        isCorrect,
+                                        question: question?.title ?? '',
+                                        answer: answer ?? '',
+                                        solution: question?.solution ?? '',
+                                    }
+                                  : {
+                                        id: question?.id,
+                                        isCorrect: false,
+                                        question: question?.title,
+                                        answer: '',
+                                        solution: question?.solution,
+                                    }
+                          )
+                          .reduce((acc, cur) => {
+                              const { id, ...rest } = cur;
+
+                              return {
+                                  ...acc,
+                                  [`${id}`]: { ...rest },
+                              };
+                          }, {})
+                    : {},
+                // {
+                //     ...prevState.score,
+                //     [questionId]: {
+                //         isCorrect,
+                //         question: question?.title ?? '',
+                //         answer: answer ?? '',
+                //         solution: question?.solution ?? '',
+                //     },
+                // },
             }));
             // Set the answer to null. Avoiding any clashes with the next question
         }

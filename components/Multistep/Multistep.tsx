@@ -18,8 +18,6 @@ interface IMultistepProps {
 export const Multistep: FC<IMultistepProps> = ({ canGoBack = true }) => {
     const { test, setAnswer } = useTimedTest();
     const router = useRouter();
-    // * reload the page & send a toast if the user didn't attempt any questions & the timer sets off
-    // router.reload()
     const { mutate: generateResult } = useGenerateResult();
     console.log('multistep => ', test);
     const { nextStep, previousStep, activeStep, totalSteps } = useMultistep({
@@ -41,8 +39,8 @@ export const Multistep: FC<IMultistepProps> = ({ canGoBack = true }) => {
             <div>
                 <div className='flex justify-end items-center mb-6 border border-purple-600 rounded-md w-max p-4 ml-auto'>
                     <Timer
-                        duration={3}
-                        callbackFn={() => {
+                        duration={!(test?.set instanceof Array) ? test?.set?.duration : 10}
+                        callbackFn={async () => {
                             if (Object?.keys(test?.score ?? {})?.length === 0) {
                                 router.reload();
                                 toast.error(
@@ -51,7 +49,12 @@ export const Multistep: FC<IMultistepProps> = ({ canGoBack = true }) => {
                                 );
                                 return;
                             }
-                            router.push('/');
+                            await generateResult({
+                                testId: Number(router?.query?.id),
+                                testsetId: Number(!(test?.set instanceof Array) && test?.set?.id),
+                                fullName: test?.fullName,
+                                score: test?.score,
+                            });
                         }}
                     />
                 </div>

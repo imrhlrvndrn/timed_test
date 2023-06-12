@@ -1,5 +1,4 @@
 import { RootLayout } from '~/layouts';
-import { useGetTestsetById } from '~/hooks';
 import { useRouter } from 'next/router';
 import * as Dialog from '@radix-ui/react-dialog';
 import { PlusIcon, XMarkIcon } from '@heroicons/react/24/solid';
@@ -7,6 +6,8 @@ import { useForm } from 'react-hook-form';
 import { useCreateTestset } from '~/hooks/useTestMutationRequests';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { newTestsetValidator } from '~/validators/test.validators';
+import { useGetTestById } from '~/hooks/useTestQueryRequests';
+import { Card } from '~/components';
 
 const NewTestPage = () => {
     const router = useRouter();
@@ -16,18 +17,21 @@ const NewTestPage = () => {
         handleSubmit,
         formState: { errors },
     } = useForm({
-        defaultValues: { title: '' },
+        defaultValues: { title: '', duration: '' },
         resolver: zodResolver(newTestsetValidator),
     });
-    // const { data } = useGetTestsetById(Number(router.query.setId));
+    const { data } = useGetTestById(Number(router?.query?.id));
 
     return (
         <RootLayout>
             <div className='px-6 py-8'>
                 <div className='flex justify-between items-center p-6'>
-                    <h1 className='text-xl md:text-2xl lg:text-3xl font-semibold'>
-                        All the test sets
-                    </h1>
+                    <div className='flex justify-center flex-col'>
+                        <h1 className='text-xl md:text-2xl lg:text-3xl font-semibold'>
+                            {data?.test?.title}
+                        </h1>
+                        <p className='opacity-50 text-sm mt-2'>{data?.test?.description}</p>
+                    </div>
                     <Dialog.Root>
                         <Dialog.Trigger asChild>
                             <button
@@ -61,6 +65,15 @@ const NewTestPage = () => {
                                         <p className='text-red-400'>{errors?.title?.message}</p>
                                     )}
 
+                                    <select
+                                        {...register('duration')}
+                                        className='w-full p-2 h-[45px] rounded-md bg-neutral-900 mt-4'
+                                    >
+                                        <option value='5'>5</option>
+                                        <option value='10'>10</option>
+                                        <option value='20'>20</option>
+                                    </select>
+
                                     <div className='mt-6 flex justify-end'>
                                         <Dialog.Close
                                             asChild
@@ -68,12 +81,17 @@ const NewTestPage = () => {
                                         >
                                             <button
                                                 type='submit'
-                                                onClick={handleSubmit(({ title }) =>
+                                                onClick={handleSubmit(({ title, duration }) => {
+                                                    console.log('set data [> ', {
+                                                        title,
+                                                        duration,
+                                                    });
                                                     createTestset({
                                                         testId: Number(router?.query?.id),
                                                         title,
-                                                    })
-                                                )}
+                                                        duration: Number(duration),
+                                                    });
+                                                })}
                                             >
                                                 Create new set
                                             </button>
@@ -93,6 +111,18 @@ const NewTestPage = () => {
                     </Dialog.Root>
                 </div>
                 {/* {router?.query?.id &} */}
+                <div className='grid grid-cols-3 gap-4 px-6'>
+                    {data?.test?.testSets?.map((set: any) => (
+                        <Card
+                            test={{
+                                id: set?.id,
+                                title: set?.title,
+                                description: data?.test?.description ?? '',
+                                link: `/admin/tests?id=${router?.query?.id}`,
+                            }}
+                        />
+                    ))}
+                </div>
             </div>
         </RootLayout>
     );
