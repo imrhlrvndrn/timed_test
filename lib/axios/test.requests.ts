@@ -7,6 +7,6 @@ export const addQuestionToTestset = async ({ setId, questions }: TAddQuestionReq
     (await axios.post(`/api/add-question?setId=${setId}`, { questions })).data;
 
 export const getTestsetById = async (setId: number) =>
-    !isNaN(setId) && (await axios.get(`/api/testset?setId=${setId}`)).data;
+    !isNaN(setId) && (await axios.get(`/api/testsets?setId=${setId}`)).data;
 
 export const getAllTests = async () => (await axios.get('/api/tests')).data;

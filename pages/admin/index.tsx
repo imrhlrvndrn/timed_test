@@ -4,10 +4,10 @@ import { useRouter } from 'next/router';
 import * as Dialog from '@radix-ui/react-dialog';
 import { RootLayout } from '~/layouts';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { XMarkIcon } from '@heroicons/react/24/solid';
+import { PlusIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import { newTestPreData } from '~/constants/forms/newTest/newTest.constants';
 import { useForm } from 'react-hook-form';
-import { useCreateNewTestAndTestsetMutation, useGetAdminTests } from '~/hooks';
+import { useCreateNewTestAndTestsetMutation, useGetAllTests } from '~/hooks';
 import { newTestValidator } from '~/validators/test.validators';
 import { Card } from '~/components';
 
@@ -42,7 +42,7 @@ const AdminPage = () => {
         resolver: zodResolver(newTestValidator),
     });
     const { mutate: createNewTestMutation, data: testData } = useCreateNewTestAndTestsetMutation();
-    const { data: testsData } = useGetAdminTests();
+    const { data: testsData } = useGetAllTests();
 
     console.log('tests data => ', testsData);
 
@@ -70,15 +70,19 @@ const AdminPage = () => {
 
     return (
         <RootLayout>
-            <div className='flex'>
-                <div className='flex-shrink-0 w-[300px] h-screen bg-neutral-900 p-6'>
+            <div className=''>
+                <div className='flex justify-between items-center p-6'>
+                    <h1 className='text-xl md:text-2xl lg:text-3xl font-semibold'>
+                        Tests you&apos;ve created
+                    </h1>
                     <Dialog.Root>
                         <Dialog.Trigger asChild>
                             <button
                                 type='button'
-                                className='bg-neutral-800 hover:bg-neutral-700 animate-transition p-4 rounded-md w-full text-slate-200'
+                                className='flex items-center bg-neutral-900 hover:bg-neutral-800 animate-transition px-6 py-4 rounded-md  text-slate-200'
                             >
-                                Create new test
+                                <PlusIcon className='w-4 h-4 mr-4' />
+                                New test
                             </button>
                         </Dialog.Trigger>
                         <Dialog.Portal>

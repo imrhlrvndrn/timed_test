@@ -1,4 +1,5 @@
 interface TestQuestion {
+    id?: number;
     title: string;
     description?: string;
     options: TestOption[];
@@ -6,13 +7,13 @@ interface TestQuestion {
 }
 
 interface TestOption {
+    id?: number;
     content: string;
 }
 
-interface TestQuestionResponse extends TestQuestion {
-    id: number;
-}
-
-interface TestOptionResponse extends TestQuestion {
-    id: number;
+interface TestSet {
+    id?: number;
+    duration: number;
+    title: string;
+    questions: TestQuestion[];
 }

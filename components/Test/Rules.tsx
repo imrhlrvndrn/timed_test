@@ -3,6 +3,7 @@
 import { CheckCircleIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import * as Dialog from '@radix-ui/react-dialog';
 import { Dispatch, SetStateAction, useState } from 'react';
+import { useTimedTest } from '../Providers/TimedTestProvider';
 
 export const Rules = ({
     setTestStatus,
@@ -15,10 +16,11 @@ export const Rules = ({
     >;
 }) => {
     const [fullname, setFullname] = useState('');
+    const { saveUsername } = useTimedTest();
     const dummy_rules = [
         {
             id: 1,
-            content: `Once you select an option & move on to the next question. You can't go BackspaceIcon.`,
+            content: `Once you select an option & move on to the next question. You can't go back.`,
         },
         {
             id: 2,
@@ -31,8 +33,8 @@ export const Rules = ({
     ];
 
     return (
-        <div className='flex flex-col mx-auto mt-8 rounded-md bg-neutral-900 p-6 '>
-            <h1 className='text-xl md:text-2xl lg:text-4xl font-bold'>Test instructions</h1>
+        <div className='flex flex-col mx-auto mt-8 rounded-md bg-neutral-900 p-6 w-full md:max-w-3xl lg:max-w-2xl'>
+            <h1 className='text-xl md:text-2xl lg:text-4xl font-semibold'>Test instructions</h1>
             <div className='mt-8'>
                 {dummy_rules?.map((rule) => (
                     <div key={rule?.id} className='flex items-center mb-4'>
@@ -42,7 +44,6 @@ export const Rules = ({
                 ))}
             </div>
 
-            
             {/* Popup Dialog box to collect user's name in case the user isn't logged in */}
             <Dialog.Root>
                 <Dialog.Trigger asChild>
@@ -74,16 +75,19 @@ export const Rules = ({
                         <div className='mt-6 flex justify-end'>
                             <Dialog.Close asChild>
                                 <button
+                                    type='submit'
                                     onClick={() => {
                                         if (fullname.length === 0) {
                                             alert('Please enter your full name');
                                             return;
                                         }
-                                        if (fullname?.length > 0)
+                                        if (fullname?.length > 0) {
                                             setTestStatus((prevState) => ({
                                                 ...prevState,
                                                 status: !prevState?.status,
                                             }));
+                                            saveUsername(fullname);
+                                        }
                                     }}
                                     className='bg-purple-600 text-slate-200 hover:bg-purple-500 animate-transition inline-flex h-[35px] items-center justify-center rounded-md px-6 leading-none focus:bg-purple-500'
                                 >
