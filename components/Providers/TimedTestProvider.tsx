@@ -1,8 +1,9 @@
 import { createContext, useContext, useState } from 'react';
+import { ResultQuestionMapping } from '~/pages/api/results';
 
 type TTimedTestContextValue = {
     test: ITimedTest;
-    updateScore: (questionId: number) => void;
+    updateScore: (questionId: number, answer: string) => void;
     setAnswer: (answer: string | null) => void;
     startTest: (test: ITimedTest) => void;
     saveUsername: (name: string) => void;
@@ -36,16 +37,14 @@ export type ITimedTest = {
     description?: string;
     set: TestSet | TestSet[];
     answer: string | null;
-    score: {
-        [key: number]: { answer: string; solution: string; isCorrect: boolean };
-    };
+    score: ResultQuestionMapping;
     fullName: string;
 };
 
 export const TimedTestProvider = ({ children }: { children: React.ReactNode }) => {
     const [test, setTest] = useState(initialState);
 
-    const updateScore = (questionId: number) => {
+    const updateScore = (questionId: number, answer: string) => {
         let isCorrect = false,
             question: TestQuestion | undefined;
 
@@ -53,23 +52,23 @@ export const TimedTestProvider = ({ children }: { children: React.ReactNode }) =
             question = test?.set?.questions?.find((question) => question?.id === questionId);
             if (!question) throw new Error('Invalid questionId');
 
-            if (question?.solution === test?.answer) isCorrect = true;
+            if (question?.solution === answer) isCorrect = true;
 
             // Build an object of all the questions that were answered correctly
             setTest((prevState) => ({
                 ...prevState,
+                answer,
                 score: {
                     ...prevState.score,
                     [questionId]: {
                         isCorrect,
                         question: question?.title ?? '',
-                        answer: test?.answer ?? '',
+                        answer: answer ?? '',
                         solution: question?.solution ?? '',
                     },
                 },
             }));
             // Set the answer to null. Avoiding any clashes with the next question
-            setAnswer(null);
         }
     };
 

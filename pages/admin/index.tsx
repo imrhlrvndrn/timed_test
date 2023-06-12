@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { PlusIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import { newTestPreData } from '~/constants/forms/newTest/newTest.constants';
 import { useForm } from 'react-hook-form';
-import { useCreateNewTestAndTestsetMutation, useGetAdminTests } from '~/hooks';
+import { useCreateNewTestAndTestsetMutation, useGetAllTests } from '~/hooks';
 import { newTestValidator } from '~/validators/test.validators';
 import { Card } from '~/components';
 
@@ -42,7 +42,7 @@ const AdminPage = () => {
         resolver: zodResolver(newTestValidator),
     });
     const { mutate: createNewTestMutation, data: testData } = useCreateNewTestAndTestsetMutation();
-    const { data: testsData } = useGetAdminTests();
+    const { data: testsData } = useGetAllTests();
 
     console.log('tests data => ', testsData);
 
@@ -73,7 +73,7 @@ const AdminPage = () => {
             <div className=''>
                 <div className='flex justify-between items-center p-6'>
                     <h1 className='text-xl md:text-2xl lg:text-3xl font-semibold'>
-                        Tests you've created
+                        Tests you&apos;ve created
                     </h1>
                     <Dialog.Root>
                         <Dialog.Trigger asChild>

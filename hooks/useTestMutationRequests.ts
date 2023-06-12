@@ -30,7 +30,7 @@ export const useAddQuestionToTestset = () => {
             await addQuestionToTestset({ setId, questions }),
         // mutationKey: ['TESTSETS', `${setId}`],
         onSuccess: () => {
-            toast.success(`Add new testset questions!! 🎉`, { duration: 3000 });
+            toast.success(`Add new questions to the testset!! 🎉`, { duration: 2000 });
             router.push(`/admin`);
         },
         onSettled: () => queryClient.invalidateQueries(['TESTS.TESTSETS']),
@@ -38,19 +38,30 @@ export const useAddQuestionToTestset = () => {
 };
 
 export const useGenerateResult = () => {
+    const router = useRouter();
+
     return useMutation({
         mutationFn: async ({
             testId,
             testsetId,
             score,
+            fullName,
         }: {
             testId: number;
             testsetId: number;
             score: ResultQuestionMapping;
+            fullName: string;
         }) =>
-            await axios.post(`/api/results?id=${testId}&setId=${testsetId}`, {
-                score,
-            }),
+            (
+                await axios.post(`/api/results?id=${testId}&setId=${testsetId}`, {
+                    score,
+                    fullName,
+                })
+            ).data,
         mutationKey: ['RESULTS'],
+        onSuccess: (data) => {
+            router.push(`/results?id=${data?.result?.id}`);
+            toast.success('Submitted your test 🔥', { duration: 2000 });
+        },
     });
 };

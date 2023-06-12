@@ -5,4 +5,4 @@ export {
     useAddQuestionToTestset,
 } from './useTestMutationRequests';
 
-export { useGetAdminTests, useGetTestsetById } from './useTestQueryRequests';
+export { useGetAllTests, useGetTestsetById } from './useTestQueryRequests';

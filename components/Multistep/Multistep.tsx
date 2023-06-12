@@ -8,13 +8,16 @@ import { FC, useEffect } from 'react';
 import { useGetTestsetById } from '~/hooks/useTestQueryRequests';
 import { useRouter } from 'next/router';
 import { toast } from 'react-hot-toast';
+import { useGenerateResult } from '~/hooks/useTestMutationRequests';
 
 interface IMultistepProps {
     canGoBack?: boolean;
 }
 
 export const Multistep: FC<IMultistepProps> = ({ canGoBack = true }) => {
-    const { test, updateScore } = useTimedTest();
+    const { test, setAnswer } = useTimedTest();
+    const router = useRouter();
+    const { mutate: generateResult } = useGenerateResult();
     console.log('multistep => ', test);
     const { nextStep, previousStep, activeStep, totalSteps } = useMultistep({
         steps: !(test.set instanceof Array)
@@ -63,13 +66,20 @@ export const Multistep: FC<IMultistepProps> = ({ canGoBack = true }) => {
                     <button
                         className='rounded-md bg-purple-600 p-2 px-6 text-sm font-bold text-slate-50'
                         type='button'
-                        onClick={(e) => {
+                        onClick={async (e) => {
                             if (!test.answer)
                                 return toast.error('Please select an option', { duration: 2000 });
-                            updateScore(activeStep?.id);
+                            setAnswer(null);
                             if (isLastStep) {
-                                updateScore(activeStep?.id);
                                 // * Make a backend call with all the relevant data
+                                await generateResult({
+                                    testId: Number(router?.query?.id),
+                                    testsetId: Number(
+                                        !(test?.set instanceof Array) && test?.set?.id
+                                    ),
+                                    fullName: test?.fullName,
+                                    score: test?.score,
+                                });
                             } else nextStep();
                         }}
                     >

@@ -11,7 +11,7 @@ export const MultistepQuestion: FC<{ question: TestQuestion }> = ({ question }) 
     //     options: [],
     //     selectedOption: '',
     // });
-    const { setAnswer } = useTimedTest();
+    const { updateScore } = useTimedTest();
 
     const dummy_options = [
         { id: 1, content: 'Option 1' },
@@ -29,10 +29,12 @@ export const MultistepQuestion: FC<{ question: TestQuestion }> = ({ question }) 
                 {question?.options?.map((option) => (
                     <div
                         key={option?.id}
-                        onClick={() => setAnswer(option?.content)}
+                        onClick={() => {
+                            updateScore(Number(question?.id), option?.content);
+                        }}
                         className={`${
-                            option?.content === answer ? 'border-purple-600' : ''
-                        } animate-transition hover:border-purple-600 hover:bg-purple-600 cursor-pointer flex items-center border-2 border-neutral-800 p-4 rounded-md data-[state=checked]:bg-purple-200`}
+                            option?.content === answer ? 'bg-purple-600' : ''
+                        } animate-transition hover:border-purple-600 cursor-pointer flex items-center border-2 border-neutral-800 p-4 rounded-md data-[state=checked]:bg-purple-200`}
                     >
                         <p>{option?.content}</p>
                     </div>

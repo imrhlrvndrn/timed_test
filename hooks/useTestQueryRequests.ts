@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from '~/lib/axios';
 import { getAllTests, getTestsetById } from '~/lib/axios/test.requests';
 
-export const useGetAdminTests = () => {
+export const useGetAllTests = () => {
     return useQuery({ queryFn: async () => await getAllTests(), queryKey: ['TEST'] });
 };
 

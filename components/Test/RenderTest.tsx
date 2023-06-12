@@ -18,7 +18,7 @@ export const RenderTest = () => {
     });
 
     useEffect(() => {
-        if (data?.test.testSets instanceof Array) {
+        if (data?.test?.testSets instanceof Array) {
             let randomSet: number = Math.floor(Math.random() * data?.test.testSets.length);
             startTest({ ...data?.test, set: data?.test.testSets[randomSet] });
         }
