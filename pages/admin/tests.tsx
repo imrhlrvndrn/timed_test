@@ -114,6 +114,7 @@ const NewTestPage = () => {
                 <div className='grid grid-cols-3 gap-4 px-6'>
                     {data?.test?.testSets?.map((set: any) => (
                         <Card
+                            key={set?.id}
                             test={{
                                 id: set?.id,
                                 title: set?.title,
