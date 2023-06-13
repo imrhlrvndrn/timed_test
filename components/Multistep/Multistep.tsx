@@ -37,7 +37,11 @@ export const Multistep: FC<IMultistepProps> = ({ canGoBack = true }) => {
     return (
         <div className='my-8 mx-auto min-h-max lg:w-6/12 md:w-8/12 rounded-md bg-neutral-900 p-12'>
             <div>
-                <div className='flex justify-end items-center mb-6 border border-purple-600 rounded-md w-max p-4 ml-auto'>
+                <div className='flex justify-between items-center mb-16 ml-auto'>
+                    <h1 className='text-lg lg:text-xl'>
+                        {test?.title} ( {`${activeStep?.order} / ${totalSteps}`} )
+                    </h1>
+                    <div className='border border-purple-600 rounded-md w-max p-4'></div>
                     <Timer
                         duration={!(test?.set instanceof Array) ? test?.set?.duration : 10}
                         callbackFn={async () => {

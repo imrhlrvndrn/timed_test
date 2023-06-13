@@ -5,17 +5,14 @@ import prisma from '~/lib/prisma/client';
 
 export default async function createNewTest(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'POST') {
-        const { setId } = req.query;
+        const { setId } = req.query; // /api/add-question?setId=1
         const { questions } = req.body;
 
         const testSetId = Number(setId);
+        if (typeof testSetId !== 'number')
+            return res.status(400).json({ message: 'Invalid testset id' });
 
-        // console.log('questions => ', questions);
-
-        // * Same query in prisma.<table>.create()
         try {
-            if (typeof testSetId !== 'number') throw new Error('Invalid testset id');
-
             for (let question of questions) {
                 await prisma.question.create({
                     data: {
@@ -31,6 +28,7 @@ export default async function createNewTest(req: NextApiRequest, res: NextApiRes
                             },
                         },
                     },
+                    select: { id: true },
                 });
             }
 
@@ -39,7 +37,5 @@ export default async function createNewTest(req: NextApiRequest, res: NextApiRes
             console.error(error);
             res.status(500);
         }
-
-        // res.status(200).json({ setId: Number(addedQuestion?.id) });
     }
 }

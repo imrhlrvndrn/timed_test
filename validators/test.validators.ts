@@ -1,23 +1,23 @@
 import { z } from 'zod';
 
-export const testWith = z.object({
-    id: z.string(),
-    user_id: z.string(),
-    title: z.string().min(5),
-    description: z.string().min(5),
-    questions: z.array(
-        z.object({
-            id: z.string(),
-            content: z.string().min(5),
-            options: z.array(
-                z.object({
-                    id: z.string(),
-                    content: z.string().min(5),
-                })
-            ),
-        })
-    ),
-});
+// export const testWith = z.object({
+//     id: z.string(),
+//     user_id: z.string(),
+//     title: z.string().min(5),
+//     description: z.string().min(5),
+//     questions: z.array(
+//         z.object({
+//             id: z.string(),
+//             content: z.string().min(5),
+//             options: z.array(
+//                 z.object({
+//                     id: z.string(),
+//                     content: z.string().min(5),
+//                 })
+//             ),
+//         })
+//     ),
+// });
 
 export const newTestValidator = z.object({
     title: z
@@ -36,6 +36,7 @@ export const newTestsetValidator = z.object({
         .string()
         .nonempty('Testset title is required')
         .min(3, 'Testset title must be atleast 3 characters long'),
+    duration: z.string().nonempty('Testset duration is required'),
 });
 
 export const testQuestionValidator = z.object({

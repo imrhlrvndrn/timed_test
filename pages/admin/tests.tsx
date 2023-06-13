@@ -25,13 +25,14 @@ const NewTestPage = () => {
     return (
         <RootLayout>
             <div className='px-6 py-8'>
-                <div className='flex justify-between items-center p-6'>
+                <div className='flex justify-between items-center p-6 mb-10'>
                     <div className='flex justify-center flex-col'>
                         <h1 className='text-xl md:text-2xl lg:text-3xl font-semibold'>
                             {data?.test?.title}
                         </h1>
                         <p className='opacity-50 text-sm mt-2'>{data?.test?.description}</p>
                     </div>
+                    {/* New testset form modal */}
                     <Dialog.Root>
                         <Dialog.Trigger asChild>
                             <button
@@ -55,24 +56,37 @@ const NewTestPage = () => {
                                 </Dialog.Description>
                                 <form>
                                     {/* {renderTextInputs(newTestPreData)} */}
+                                    <label htmlFor='title' className='inline-block'>
+                                        Title
+                                    </label>
                                     <input
                                         placeholder='Enter a title'
-                                        className='text-slate-200 border border-transparent focus:ring-2 focus:ring-purple-600 inline-flex w-full flex-1 items-center justify-center rounded-md px-4 py-2 leading-none outline-none bg-neutral-900 hover:bg-neutral-950 animate-transition'
+                                        className='mt-2 text-slate-200 border border-transparent focus:ring-2 focus:ring-purple-600 inline-flex w-full flex-1 items-center justify-center rounded-md px-4 py-2 leading-none outline-none bg-neutral-900 hover:bg-neutral-950 animate-transition'
                                         type='text'
                                         {...register('title')}
                                     />
                                     {'title' in errors && (
-                                        <p className='text-red-400'>{errors?.title?.message}</p>
+                                        <p className='text-red-400 mt-2'>
+                                            {errors?.title?.message}
+                                        </p>
                                     )}
 
+                                    <label htmlFor='duration' className='inline-block mt-6'>
+                                        Duration
+                                    </label>
                                     <select
                                         {...register('duration')}
-                                        className='w-full p-2 h-[45px] rounded-md bg-neutral-900 mt-4'
+                                        className='w-full p-2 h-[45px] rounded-md bg-neutral-900 mt-2'
                                     >
                                         <option value='5'>5</option>
                                         <option value='10'>10</option>
                                         <option value='20'>20</option>
                                     </select>
+                                    {'duration' in errors && (
+                                        <p className='text-red-400 mt-2'>
+                                            {errors?.duration?.message}
+                                        </p>
+                                    )}
 
                                     <div className='mt-6 flex justify-end'>
                                         <Dialog.Close

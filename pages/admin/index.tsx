@@ -70,11 +70,13 @@ const AdminPage = () => {
 
     return (
         <RootLayout>
-            <div className=''>
+            <div className='px-6 py-8'>
                 <div className='flex justify-between items-center p-6'>
                     <h1 className='text-xl md:text-2xl lg:text-3xl font-semibold'>
-                        Tests you&apos;ve created
+                        {/* Tests you&apos;ve created */}
+                        All tests
                     </h1>
+                    {/* New TEST form modal */}
                     <Dialog.Root>
                         <Dialog.Trigger asChild>
                             <button
