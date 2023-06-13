@@ -25,7 +25,7 @@ export const Timer = ({
         if (timeLeft < 0) clearInterval(intervalId);
 
         return () => clearInterval(intervalId);
-    }, [timeLeft]);
+    }, [timeLeft, callbackFn]);
 
     return <h1>Test timer {timeLeft >= 0 && timeLeft}</h1>;
 };
